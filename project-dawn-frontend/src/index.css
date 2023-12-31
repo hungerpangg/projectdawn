@@ -1,0 +1,168 @@
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+table {
+	max-width: 100%;
+	overflow: hidden;
+	border-collapse: collapse;
+}
+
+th,
+td {
+	padding: 8px;
+	border: 1px solid black;
+	white-space: pre-wrap; /* Prevent text from wrapping */
+	overflow: scroll; /* Hide content that overflows */
+	/* text-overflow: ellipsis; */
+	max-width: 150px;
+}
+
+.fadeIn {
+	/* Add your fadeIn styles here */
+}
+
+.active-custom {
+	font-weight: bold;
+}
+
+.filter-icon {
+	cursor: pointer;
+}
+
+.spinning {
+	animation: spin 1s linear infinite;
+}
+
+.topbar {
+	position: fixed;
+	top: 0;
+	left: 20%;
+	height: 2em;
+	color: black;
+	padding: 0;
+	box-sizing: border-box;
+	height: auto;
+	transition: right 0.3s ease;
+	border-style: ridge;
+	background-color: white; /* Set the background color to white */
+	opacity: 1;
+	z-index: 1000;
+}
+
+.topbar-options {
+	border-right: 1px solid #ccc;
+	padding: 0 1em;
+	/* background-color: red; */
+	display: flex;
+	align-items: center;
+}
+
+.top-dropdownbar-options {
+	color: black;
+	text-decoration: none;
+	padding: 0.5em 1em;
+	display: flex;
+	align-items: center;
+	border-bottom: 1px ridge lightgrey;
+	/* background-color: red; */
+}
+
+.sidebar {
+	position: fixed;
+	width: 20%;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	color: black;
+	padding: 0;
+	box-sizing: border-box;
+	height: auto;
+	transition: right 0.3s ease;
+	border-style: ridge;
+}
+
+.sidebar-options {
+	border-bottom: 1px solid #ccc;
+	display: flex;
+	justify-content: center; /* Horizontally center */
+	align-items: center;
+}
+
+.sidebar-options:hover,
+.topbar-options:hover,
+.top-dropdownbar-options:hover {
+	background-color: lightgrey;
+}
+
+.dashboard-container {
+	/* background-color: yellow; */
+	position: absolute;
+	top: 10%;
+	left: 20%;
+	max-width: 80vw;
+	width: 100%;
+	height: 100vh;
+	/* margin: 1em; */
+}
+
+.each-dashboard-container {
+	padding: 0 2em;
+	position: relative;
+}
+
+.number-container {
+	/* background-color: red; */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.dropdown-menu {
+	display: none;
+	position: absolute;
+	top: 100%;
+	right: 0;
+	/* background-color: #333; */
+	/* padding: 10px; */
+	border: ridge;
+	margin: 0;
+	/* background-color: yellow; */
+}
+
+.dropdown-menu.show {
+	display: flex;
+	flex-direction: column;
+}
+
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: inherit;
+}
+
+.modal-content {
+	background: white;
+	padding: 20px;
+	border-radius: 8px;
+	text-align: center;
+}
+
+.submit-ticket-btn {
+	width: 6em;
+	margin-top: 1em;
+	margin-left: auto;
+}
