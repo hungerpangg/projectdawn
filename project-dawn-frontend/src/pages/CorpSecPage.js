@@ -64,7 +64,7 @@ function CorpSec() {
 	const getTickets = async () => {
 		try {
 			const res = await fetch(
-				`http://localhost:3001/tickets?category=${category}&companyId=${companyId}`,
+				`https://projectdawn-backend.onrender.com/tickets?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",

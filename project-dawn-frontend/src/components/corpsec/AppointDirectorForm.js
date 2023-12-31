@@ -62,11 +62,14 @@ function AppointDirectorForm({ type, category }) {
 			console.log(key, value, "entries");
 		}
 		try {
-			const res = await fetch("http://localhost:3001/request/issueshares", {
-				method: "POST",
-				body: formData,
-				credentials: "include",
-			});
+			const res = await fetch(
+				"https://projectdawn-backend.onrender.com/request/issueshares",
+				{
+					method: "POST",
+					body: formData,
+					credentials: "include",
+				}
+			);
 			setState((prevData) => ({
 				...prevData,
 				sendingRequest: false,

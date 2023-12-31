@@ -36,10 +36,13 @@ function Provider({ children }) {
 			const payloadObject = JSON.parse(decodedPayload);
 			const { id } = payloadObject;
 			try {
-				const res = await fetch(`http://localhost:3001/authenticationCache`, {
-					method: "GET",
-					credentials: "include",
-				});
+				const res = await fetch(
+					`https://projectdawn-backend.onrender.com/authenticationCache`,
+					{
+						method: "GET",
+						credentials: "include",
+					}
+				);
 				const data = await res.json();
 				setAuthenticatedState((prevState) => ({
 					...prevState,

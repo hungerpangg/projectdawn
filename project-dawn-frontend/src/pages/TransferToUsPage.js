@@ -54,24 +54,27 @@ function TransferToUsPage() {
 		let passwordInput = state.formDetails.passwordInput;
 
 		try {
-			const res = await fetch("http://localhost:3001/signup", {
-				method: "POST",
-				body: JSON.stringify({
-					nameInput,
-					directorInput,
-					businessEntityInput,
-					companyNameInput,
-					citizenInput,
-					shareholdersInput,
-					virtualOfficeInput,
-					servicesInput,
-					visaInput,
-					emailInput,
-					passwordInput,
-				}),
-				headers: { "Content-Type": "application/json" },
-				credentials: "include",
-			});
+			const res = await fetch(
+				"https://projectdawn-backend.onrender.com/signup",
+				{
+					method: "POST",
+					body: JSON.stringify({
+						nameInput,
+						directorInput,
+						businessEntityInput,
+						companyNameInput,
+						citizenInput,
+						shareholdersInput,
+						virtualOfficeInput,
+						servicesInput,
+						visaInput,
+						emailInput,
+						passwordInput,
+					}),
+					headers: { "Content-Type": "application/json" },
+					credentials: "include",
+				}
+			);
 			const data = await res.json();
 			// 	if (data.redirected) {
 			// 		navigate("/signup2");
