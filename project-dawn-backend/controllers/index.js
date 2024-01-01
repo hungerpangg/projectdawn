@@ -217,6 +217,8 @@ module.exports.login = async (req, res) => {
 		const token = createToken(user._id);
 		res.cookie("jwt", token, {
 			maxAge: maxAge * 1000,
+			secure: true,
+			sameSite: "None",
 		});
 		// var { email, _id, name } = user;
 		// const userId = _id.toString();
@@ -245,9 +247,7 @@ module.exports.getTickets = async (req, res) => {
 			res.status(201).json(tickets);
 		} catch (err) {
 			console.log(err);
-			res
-				.status(404)
-				.json({ ok: false, error: "Unable to retrieve tickets" });
+			res.status(404).json({ ok: false, error: "Unable to retrieve tickets" });
 		}
 	} else {
 		res.status(404).json({ ok: false, error: "Invalid category or companyId" });
@@ -298,4 +298,3 @@ module.exports.logout = (req, res) => {
 	});
 	res.status(200).json({ success: true });
 };
-
