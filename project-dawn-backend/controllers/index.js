@@ -116,6 +116,7 @@ module.exports.signup_post = async (req, res) => {
 			maxAge: maxAge * 1000,
 			secure: true,
 			sameSite: "None",
+			path: "/",
 		});
 		const userId = user._id.toString();
 		res.status(201).json({ redirected: true, userId, companyId });
@@ -221,6 +222,7 @@ module.exports.login = async (req, res) => {
 			maxAge: maxAge * 1000,
 			secure: true,
 			sameSite: "None",
+			path: "/",
 		});
 		// var { email, _id, name } = user;
 		// const userId = _id.toString();
@@ -299,6 +301,7 @@ module.exports.logout = (req, res) => {
 		maxAge: 1,
 		secure: true,
 		sameSite: "None",
+		path: "/",
 	});
 	res.status(200).json({ success: true });
 };
