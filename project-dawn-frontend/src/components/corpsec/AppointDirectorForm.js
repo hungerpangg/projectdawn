@@ -63,7 +63,7 @@ function AppointDirectorForm({ type, category }) {
 		}
 		try {
 			const res = await fetch(
-				"https://projectdawn-backend.onrender.com/request/issueshares",
+				"https://api.projectdawn-backend.onrender.com/request/issueshares",
 				{
 					method: "POST",
 					body: formData,

@@ -7,10 +7,13 @@ const Modal = ({ isOpen, onClose }) => {
 	const { setAuthenticatedState } = useContext(AuthenticateContext);
 
 	const handleSignout = async () => {
-		const res = await fetch("https://projectdawn-backend.onrender.com/logout", {
-			method: "GET",
-			credentials: "include",
-		});
+		const res = await fetch(
+			"https://api.projectdawn-backend.onrender.com/logout",
+			{
+				method: "GET",
+				credentials: "include",
+			}
+		);
 		const data = await res.json();
 		if (data.success) {
 			onClose();

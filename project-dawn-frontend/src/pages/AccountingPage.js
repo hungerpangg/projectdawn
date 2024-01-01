@@ -55,7 +55,7 @@ function AccountingPage() {
 	const getDocuments = async () => {
 		try {
 			const res = await fetch(
-				`https://projectdawn-backend.onrender.com/documents?category=${category}&companyId=${companyId}`,
+				`https://api.projectdawn-backend.onrender.com/documents?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",

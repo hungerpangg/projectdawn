@@ -16,7 +16,7 @@ function Login() {
 		if (email && password) {
 			try {
 				const res = await fetch(
-					"https://projectdawn-backend.onrender.com/login",
+					"https://api.projectdawn-backend.onrender.com/login",
 					{
 						method: "POST",
 						body: JSON.stringify({ email, password }),

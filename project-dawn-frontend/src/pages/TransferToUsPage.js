@@ -55,7 +55,7 @@ function TransferToUsPage() {
 
 		try {
 			const res = await fetch(
-				"https://projectdawn-backend.onrender.com/signup",
+				"https://api.projectdawn-backend.onrender.com/signup",
 				{
 					method: "POST",
 					body: JSON.stringify({
