@@ -37,7 +37,7 @@ function Provider({ children }) {
 			const { id } = payloadObject;
 			try {
 				const res = await fetch(
-					`https://api.projectdawn-backend.onrender.com/authenticationCache`,
+					`https://api.projectdawn-sequence.com/authenticationCache`,
 					{
 						method: "GET",
 						credentials: "include",

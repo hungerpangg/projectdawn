@@ -64,7 +64,7 @@ function IssueSharesForm({ type, category }) {
 		}
 		try {
 			const res = await fetch(
-				"https://api.projectdawn-backend.onrender.com/request/issueshares",
+				"https://api.projectdawn-sequence.com/request/issueshares",
 				{
 					method: "POST",
 					body: formData,

@@ -15,15 +15,12 @@ function Login() {
 		// For simplicity, let's just check if email and password are not empty
 		if (email && password) {
 			try {
-				const res = await fetch(
-					"https://api.projectdawn-backend.onrender.com/login",
-					{
-						method: "POST",
-						body: JSON.stringify({ email, password }),
-						headers: { "Content-Type": "application/json" },
-						credentials: "include",
-					}
-				);
+				const res = await fetch("https://api.projectdawn-sequence.com/login", {
+					method: "POST",
+					body: JSON.stringify({ email, password }),
+					headers: { "Content-Type": "application/json" },
+					credentials: "include",
+				});
 				const data = await res.json();
 				const {
 					data: { company },

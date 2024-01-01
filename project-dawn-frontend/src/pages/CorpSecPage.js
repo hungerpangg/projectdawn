@@ -64,7 +64,7 @@ function CorpSec() {
 	const getTickets = async () => {
 		try {
 			const res = await fetch(
-				`https://api.projectdawn-backend.onrender.com/tickets?category=${category}&companyId=${companyId}`,
+				`https://api.projectdawn-sequence.com/tickets?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",
@@ -81,7 +81,7 @@ function CorpSec() {
 	const getDocuments = async () => {
 		try {
 			const res = await fetch(
-				`https://api.projectdawn-backend.onrender.com/documents?category=${category}&companyId=${companyId}`,
+				`https://api.projectdawn-sequence.com/documents?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",
