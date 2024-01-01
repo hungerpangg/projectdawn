@@ -116,7 +116,6 @@ module.exports.signup_post = async (req, res) => {
 			maxAge: maxAge * 1000,
 			secure: true,
 			sameSite: "None",
-			domain: ".onrender.com",
 			path: "/",
 		});
 		const userId = user._id.toString();
@@ -223,7 +222,6 @@ module.exports.login = async (req, res) => {
 			maxAge: maxAge * 1000,
 			secure: true,
 			sameSite: "None",
-			domain: ".onrender.com",
 			path: "/",
 		});
 		// var { email, _id, name } = user;
@@ -303,7 +301,6 @@ module.exports.logout = (req, res) => {
 		maxAge: 1,
 		secure: true,
 		sameSite: "None",
-		domain: ".onrender.com",
 		path: "/",
 	});
 	res.status(200).json({ success: true });
