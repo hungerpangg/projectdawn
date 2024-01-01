@@ -114,6 +114,8 @@ module.exports.signup_post = async (req, res) => {
 		const token = createToken(user._id);
 		res.cookie("jwt", token, {
 			maxAge: maxAge * 1000,
+			secure: true,
+			sameSite: "None",
 		});
 		const userId = user._id.toString();
 		res.status(201).json({ redirected: true, userId, companyId });
@@ -295,6 +297,8 @@ module.exports.getDocuments = async (req, res) => {
 module.exports.logout = (req, res) => {
 	res.cookie("jwt", "", {
 		maxAge: 1,
+		secure: true,
+		sameSite: "None",
 	});
 	res.status(200).json({ success: true });
 };

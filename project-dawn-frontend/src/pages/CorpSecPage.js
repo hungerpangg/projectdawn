@@ -81,7 +81,7 @@ function CorpSec() {
 	const getDocuments = async () => {
 		try {
 			const res = await fetch(
-				`http://localhost:3001/documents?category=${category}&companyId=${companyId}`,
+				`https://projectdawn-backend.onrender.com/documents?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",
