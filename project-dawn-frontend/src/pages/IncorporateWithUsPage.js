@@ -3,9 +3,11 @@ import { useNavigate, Link } from "react-router-dom";
 import Spinner from "../Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthenticateContext from "../context/authentication";
 
 function IncorporateWithUsPage() {
 	const navigate = useNavigate();
+	const { setAuthenticatedState } = useContext(AuthenticateContext);
 	const [state, setState] = useState({
 		formDetails: {
 			nameInput: "",
@@ -101,10 +103,11 @@ function IncorporateWithUsPage() {
 			const data = await res.json();
 			if (data.redirected) {
 				navigate("/home");
-				// setAuthenticatedState((prevState) => ({
-				// 	...prevState,
-				// 	userId,
-				// }));
+				setAuthenticatedState((prevState) => ({
+					...prevState,
+					userId: data.userId,
+					companyId: data.companyId,
+				}));
 			}
 		} catch (err) {
 			console.log(err);
