@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Spinner from "../Spinner";
+import Spinner from "../utilities/Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthenticateContext from "../context/authentication";
@@ -8,6 +8,7 @@ import AuthenticateContext from "../context/authentication";
 function IncorporateWithUsPage() {
 	const navigate = useNavigate();
 	const { setAuthenticatedState } = useContext(AuthenticateContext);
+	const [loading, setLoading] = useState(false);
 	const [state, setState] = useState({
 		formDetails: {
 			nameInput: "",
@@ -77,9 +78,11 @@ function IncorporateWithUsPage() {
 		let visaInput = state.formDetails.visaInput;
 		let emailInput = state.formDetails.emailInput;
 		let passwordInput = state.formDetails.passwordInput;
+		setLoading(true);
 
 		try {
-			const res = await fetch("https://api.projectdawn-sequence.com/signup", {
+			console.log(process.env.REACT_APP_API_URL);
+			const res = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
 				method: "POST",
 				body: JSON.stringify({
 					nameInput,
@@ -99,6 +102,7 @@ function IncorporateWithUsPage() {
 			});
 			const data = await res.json();
 			if (data.redirected) {
+				setLoading(false);
 				navigate("/home");
 				setAuthenticatedState((prevState) => ({
 					...prevState,
@@ -133,9 +137,26 @@ function IncorporateWithUsPage() {
 
 	console.log(state);
 
-	return (
-		<div>
-			Sign up
+	const content = () => {
+		if (loading) {
+			return (
+				<div style={{ height: "200px", width: "120px", margin: "25% auto" }}>
+					<div
+						style={{
+							marginBottom: "3em",
+							transform: "translate(-15px, 0)",
+							overflow: "visible",
+							whiteSpace: "nowrap",
+							bold: "true",
+						}}
+					>
+						<b>Creating your account...</b>
+					</div>
+					<Spinner size="8x" spinning={true} />
+				</div>
+			);
+		}
+		return (
 			<form
 				style={{
 					margin: "2em",
@@ -389,8 +410,10 @@ function IncorporateWithUsPage() {
 					Submit
 				</button>
 			</form>
-		</div>
-	);
+		);
+	};
+
+	return <div>{content()}</div>;
 }
 
 export default IncorporateWithUsPage;

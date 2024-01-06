@@ -37,7 +37,7 @@ function Provider({ children }) {
 			const { id } = payloadObject;
 			try {
 				const res = await fetch(
-					`https://api.projectdawn-sequence.com/authenticationCache`,
+					`${process.env.REACT_APP_API_URL}/authenticationCache`,
 					{
 						method: "GET",
 						credentials: "include",

@@ -54,7 +54,7 @@ function TransferToUsPage() {
 		let passwordInput = state.formDetails.passwordInput;
 
 		try {
-			const res = await fetch("https://api.projectdawn-sequence.com/signup", {
+			const res = await fetch(`${process.env.REACT_APP_API_URL}/signup`, {
 				method: "POST",
 				body: JSON.stringify({
 					nameInput,

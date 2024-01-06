@@ -9,13 +9,15 @@ function Login() {
 	const navigate = useNavigate();
 	const { setAuthenticatedState } = useContext(AuthenticateContext);
 
+	console.log(process.env.REACT_APP_API_URL, "processenv");
+
 	const handleLogin = async () => {
 		// Implement your login logic here (e.g., make an API request)
 
 		// For simplicity, let's just check if email and password are not empty
 		if (email && password) {
 			try {
-				const res = await fetch("https://api.projectdawn-sequence.com/login", {
+				const res = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
 					method: "POST",
 					body: JSON.stringify({ email, password }),
 					headers: { "Content-Type": "application/json" },
