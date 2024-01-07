@@ -1,2 +1,3 @@
 node_modules/
 project-dawn-backend/config.env
+project-dawn-frontend/.env
