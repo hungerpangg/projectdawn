@@ -103,7 +103,7 @@ function IncorporateWithUsPage() {
 			const data = await res.json();
 			if (data.redirected) {
 				setLoading(false);
-				navigate("/home");
+				navigate("/home?signup=true");
 				setAuthenticatedState((prevState) => ({
 					...prevState,
 					userId: data.userId,
