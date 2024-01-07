@@ -63,7 +63,7 @@ function AppointDirectorForm({ type, category }) {
 		}
 		try {
 			const res = await fetch(
-				"https://api.projectdawn-sequence.com/request/issueshares",
+				`${process.env.REACT_APP_API_URL}/request/issueshares`,
 				{
 					method: "POST",
 					body: formData,

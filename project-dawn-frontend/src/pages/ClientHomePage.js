@@ -1,6 +1,7 @@
-import { useState } from "react";
-import Sidebar from "../components/Sidebar";
-import Topbar from "../components/Topbar";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function ClientHomePage() {
 	const sidebarOptions = [
@@ -11,6 +12,21 @@ function ClientHomePage() {
 		"Insurance",
 		"Legal",
 	];
+	const location = useLocation();
+	const queryParams = new URLSearchParams(location.search);
+	const signupParam = queryParams.get("signup");
+
+	const showToastMessage = () => {
+		toast.success("Your account has been created!", {
+			position: toast.POSITION.TOP_CENTER,
+		});
+	};
+
+	useEffect(() => {
+		if (signupParam) {
+			showToastMessage();
+		}
+	}, []);
 
 	const notifications = [
 		{
@@ -58,9 +74,8 @@ function ClientHomePage() {
 
 	return (
 		<div>
+			<ToastContainer />
 			<div>
-				{/* <Sidebar optionList={sidebarOptions} /> */}
-				{/* <Topbar /> */}
 				<div
 					className="dashboard-container"
 					style={{

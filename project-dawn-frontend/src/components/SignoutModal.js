@@ -7,7 +7,7 @@ const Modal = ({ isOpen, onClose }) => {
 	const { setAuthenticatedState } = useContext(AuthenticateContext);
 
 	const handleSignout = async () => {
-		const res = await fetch("https://api.projectdawn-sequence.com/logout", {
+		const res = await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
 			method: "GET",
 			credentials: "include",
 		});

@@ -64,7 +64,7 @@ function CorpSec() {
 	const getTickets = async () => {
 		try {
 			const res = await fetch(
-				`https://api.projectdawn-sequence.com/tickets?category=${category}&companyId=${companyId}`,
+				`${process.env.REACT_APP_API_URL}/tickets?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",
@@ -81,7 +81,7 @@ function CorpSec() {
 	const getDocuments = async () => {
 		try {
 			const res = await fetch(
-				`https://api.projectdawn-sequence.com/documents?category=${category}&companyId=${companyId}`,
+				`${process.env.REACT_APP_API_URL}/documents?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",

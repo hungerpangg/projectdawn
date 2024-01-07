@@ -55,7 +55,7 @@ function AccountingPage() {
 	const getDocuments = async () => {
 		try {
 			const res = await fetch(
-				`https://api.projectdawn-sequence.com/documents?category=${category}&companyId=${companyId}`,
+				`${process.env.REACT_APP_API_URL}/documents?category=${category}&companyId=${companyId}`,
 				{
 					method: "GET",
 					credentials: "include",
