@@ -12,6 +12,7 @@ import {
 
 function AccountingPage() {
 	const [selectedOption, setSelectedOption] = useState(null);
+	const [tickets, setTickets] = useState([]);
 	const [documents, setDocuments] = useState([]);
 	const {
 		authenticatedState: { userId, companyId },
@@ -52,6 +53,31 @@ function AccountingPage() {
 		"Source",
 	];
 
+	const ticketColNames = [
+		"Ticket no.",
+		"Ticket type",
+		"Additional info",
+		"Created by",
+		"Created at",
+	];
+
+	const getTickets = async () => {
+		try {
+			const res = await fetch(
+				`${process.env.REACT_APP_API_URL}/tickets?category=${category}&companyId=${companyId}`,
+				{
+					method: "GET",
+					credentials: "include",
+				}
+			);
+			const data = await res.json();
+			// console.log(data, "tickets");
+			setTickets(data);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
 	const getDocuments = async () => {
 		try {
 			const res = await fetch(
@@ -70,7 +96,10 @@ function AccountingPage() {
 	};
 
 	useEffect(() => {
-		if (companyId) getDocuments();
+		if (companyId) {
+			getTickets();
+			getDocuments();
+		}
 	}, [companyId]);
 
 	const notifications = [
@@ -87,6 +116,14 @@ function AccountingPage() {
 		return <div>{notification.title}</div>;
 	});
 
+	const ticketsTableData = tickets?.map((ticket) => ({
+		ticketNumber: ticket._id,
+		ticketType: ticket.type,
+		addtionalInfo: ticket.payload.additionalInformationInput || "None",
+		createdBy: ticket.creator.name,
+		createdAt: ticket.createdAt,
+	}));
+
 	const documentsTableData = documents?.map((document) => ({
 		ticketNumber: document.ticket,
 		name: document.name,
@@ -95,29 +132,7 @@ function AccountingPage() {
 		link: <a href={document.url}>Link</a>,
 	}));
 
-	const data = [
-		{
-			ticketNumber: 1,
-			title: "Handle corp sec",
-			description: "Some stuff",
-			status: "In progress",
-			deadline: new Date().toLocaleDateString(),
-		},
-		{
-			ticketNumber: 2,
-			title: "Handle corp sec",
-			description: "Some stuff",
-			status: "In progress",
-			deadline: new Date().toLocaleDateString(),
-		},
-		{
-			ticketNumber: 3,
-			title: "Handle corp sec",
-			description: "Some stuff",
-			status: "In progress",
-			deadline: new Date().toLocaleDateString(),
-		},
-	];
+	const colWidth = ["6em", "5em", "7em", "7em", "3em"];
 
 	return (
 		<div>
@@ -256,7 +271,7 @@ function AccountingPage() {
 						<h3>Compliance notifications</h3>
 						{renderNotifications}
 					</div>
-					<div
+					{/* <div
 						className="table-content"
 						style={{
 							marginTop: "3em",
@@ -292,6 +307,15 @@ function AccountingPage() {
 							</tbody>
 						</table>
 					</div>
+					 */}
+					<h2>Tickets</h2>
+					<DocumentsTable
+						colNames={ticketColNames}
+						data={ticketsTableData}
+						searchFilter={true}
+						searchName="ticket no."
+						colWidth={colWidth}
+					/>
 				</div>
 				<div style={{ borderTop: "2px solid gray", margin: "2em 0" }}></div>
 				<div className="each-dashboard-container">

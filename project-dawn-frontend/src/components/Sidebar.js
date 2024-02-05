@@ -4,7 +4,10 @@ import { NavLink, useLocation } from "react-router-dom";
 function Sidebar({ optionList, activeTab, handleTabClick }) {
 	const [nameList, setNameList] = useState([]);
 	// const [activeTab, setActiveTab] = useState("");
-	const { pathname } = useLocation();
+	const location = useLocation();
+	// const firstPath = location.pathname.split("/")[1];
+
+	// activeTab = decodeURIComponent(firstPath) || "";
 
 	const clientOptionList = [
 		"Sequence",
@@ -29,8 +32,9 @@ function Sidebar({ optionList, activeTab, handleTabClick }) {
 	}, [activeTab]);
 
 	useEffect(() => {
-		if (pathname.substr(0, 4) === "home") handleTabClick("Sequence");
-	});
+		if (location.pathname === "/home") handleTabClick("Sequence");
+		else handleTabClick(location.pathname.substring(1));
+	}, []);
 
 	const options = nameList?.map((option) => {
 		return (

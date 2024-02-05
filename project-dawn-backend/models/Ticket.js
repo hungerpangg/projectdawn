@@ -4,7 +4,11 @@ const { isEmail } = require("validator");
 const ticketSchema = new mongoose.Schema({
 	type: {
 		type: String,
-		enum: ["Issue Shares", "Appoint a Director"],
+		enum: [
+			"Issue Shares",
+			"Appoint a Director",
+			"Change in Registered Office Address",
+		],
 		required: true,
 	},
 	category: {

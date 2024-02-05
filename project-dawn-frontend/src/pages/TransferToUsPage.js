@@ -90,7 +90,13 @@ function TransferToUsPage() {
 
 	return (
 		<div>
-			Sign up
+			<button
+				onClick={() => {
+					navigate("/");
+				}}
+			>
+				Back to Main
+			</button>
 			<form
 				style={{
 					margin: "2em",

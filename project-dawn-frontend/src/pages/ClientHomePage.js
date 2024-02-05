@@ -19,6 +19,7 @@ function ClientHomePage() {
 	const showToastMessage = () => {
 		toast.success("Your account has been created!", {
 			position: toast.POSITION.TOP_CENTER,
+			autoClose: 2000,
 		});
 	};
 

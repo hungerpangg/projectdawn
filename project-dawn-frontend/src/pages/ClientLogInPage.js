@@ -1,20 +1,43 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import AuthenticateContext from "../context/authentication";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../utilities/Spinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function Login() {
+function Login({ redirect }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
 	const navigate = useNavigate();
 	const { setAuthenticatedState } = useContext(AuthenticateContext);
+	// const location = useLocation();
+	// const queryParams = new URLSearchParams(location.search);
+	// const signupParam = queryParams.get("redirect");
 
-	console.log(process.env.REACT_APP_API_URL, "processenv");
+	const showToastMessage = () => {
+		toast.dark("Please sign in to access Sequence", {
+			position: toast.POSITION.TOP_CENTER,
+			autoClose: 2000,
+			style: {
+				theme: "colored",
+				color: "black",
+				backgroundColor: "white",
+			},
+		});
+	};
+
+	useEffect(() => {
+		if (redirect) {
+			showToastMessage();
+		}
+	}, []);
 
 	const handleLogin = async () => {
-		// Implement your login logic here (e.g., make an API request)
-
-		// For simplicity, let's just check if email and password are not empty
+		setLoading(true);
+		await new Promise((resolve) => setTimeout(resolve, 3000));
 		if (email && password) {
 			try {
 				const res = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
@@ -23,6 +46,7 @@ function Login() {
 					headers: { "Content-Type": "application/json" },
 					credentials: "include",
 				});
+				setLoading(true);
 				const data = await res.json();
 				const {
 					data: { company },
@@ -31,6 +55,7 @@ function Login() {
 					navigate("/home");
 					setAuthenticatedState((prevState) => ({
 						...prevState,
+						userType: "client",
 						isAuthenticated: true,
 						companyId: company,
 					}));
@@ -43,8 +68,35 @@ function Login() {
 		}
 	};
 
+	if (loading) {
+		return (
+			<div style={{ height: "200px", width: "120px", margin: "25% auto" }}>
+				<div
+					style={{
+						marginBottom: "3em",
+						transform: "translate(-15px, 0)",
+						overflow: "visible",
+						whiteSpace: "nowrap",
+						bold: "true",
+					}}
+				>
+					<b>Logging in...</b>
+				</div>
+				<Spinner size="8x" spinning={true} />
+			</div>
+		);
+	}
+
 	return (
 		<div>
+			<ToastContainer />
+			<button
+				onClick={() => {
+					navigate("/");
+				}}
+			>
+				Back to Main
+			</button>
 			<h2>Login</h2>
 			<div>
 				<label>Email:</label>
