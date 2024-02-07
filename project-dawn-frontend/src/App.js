@@ -110,6 +110,7 @@ function App() {
 							optionList={StaffSidebarOptionList}
 							activeTab={activeTab}
 							handleTabClick={handleTabClick}
+							staff={true}
 						/>
 					)}
 				{isAuthenticated &&
@@ -120,6 +121,7 @@ function App() {
 							optionList={StaffTopbarOptionList}
 							activeTab={activeTab}
 							handleTabClick={handleTabClick}
+							staff={true}
 						/>
 					)}
 
@@ -195,7 +197,7 @@ function App() {
 						path="/accounting"
 						element={
 							<PrivateRoute
-								element={<ClientHomePage />}
+								element={<AccountingPage />}
 								alternateElement={<ClientLogInPage redirect={true} />}
 								isAuthenticated={isAuthenticated && userType === "client"}
 							/>
