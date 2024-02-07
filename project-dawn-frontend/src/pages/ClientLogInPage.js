@@ -37,7 +37,6 @@ function Login({ redirect }) {
 
 	const handleLogin = async () => {
 		setLoading(true);
-		await new Promise((resolve) => setTimeout(resolve, 3000));
 		if (email && password) {
 			try {
 				const res = await fetch(`${process.env.REACT_APP_API_URL}/login`, {
