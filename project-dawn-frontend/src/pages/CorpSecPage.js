@@ -1,7 +1,9 @@
 import { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import AppointDirectorForm from "../components/corpsec/AppointDirectorForm";
 import IssueSharesForm from "../components/corpsec/IssueSharesForm";
+import ChangeRegisteredOfficeForm from "../components/corpsec/ChangeRegisteredOfficeForm";
 import DocumentsTable from "../components/DocumentsTable";
 import AuthenticateContext from "../context/authentication";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +11,7 @@ import {
 	faArrowUpZA,
 	faArrowUpWideShort,
 } from "@fortawesome/free-solid-svg-icons";
+import { Type } from "../enums";
 
 function CorpSec() {
 	const [selectedOption, setSelectedOption] = useState(null);
@@ -26,12 +29,19 @@ function CorpSec() {
 
 	const renderSelectedComponent = () => {
 		switch (selectedOption) {
-			case "Appoint a Director":
+			case Type.appointDirector:
 				return (
 					<AppointDirectorForm category={category} type={selectedOption} />
 				);
-			case "Issue Shares":
+			case Type.issueShares:
 				return <IssueSharesForm category={category} type={selectedOption} />;
+			case Type.changeInROA:
+				return (
+					<ChangeRegisteredOfficeForm
+						category={category}
+						type={selectedOption}
+					/>
+				);
 			default:
 				return null;
 		}
@@ -117,7 +127,7 @@ function CorpSec() {
 	});
 
 	const ticketsTableData = tickets?.map((ticket) => ({
-		ticketNumber: ticket._id,
+		ticketNumber: <Link to={`/ticket/${ticket._id}`}>{ticket._id}</Link>,
 		ticketType: ticket.type,
 		addtionalInfo: ticket.payload.additionalInformationInput || "None",
 		createdBy: ticket.creator.name,
@@ -125,7 +135,9 @@ function CorpSec() {
 	}));
 
 	const documentsTableData = documents?.map((document) => ({
-		ticketNumber: document.ticket,
+		ticketNumber: (
+			<Link to={`/ticket/${document.ticket}`}>{document.ticket}</Link>
+		),
 		name: document.name,
 		uploadedBy: document.creator.name,
 		uploadedAt: document.createdAt,
@@ -196,42 +208,7 @@ function CorpSec() {
 						<h3>Compliance notifications</h3>
 						{renderNotifications}
 					</div>
-					{/* <div
-						className="table-content"
-						style={{
-							marginTop: "3em",
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
-						}}
-					>
-						<table border="1">
-							<thead>
-								<tr>
-									<th>Module</th>
-									<th>Ticket number</th>
-									<th>Title</th>
-									<th>Description</th>
-									<th>Status</th>
-									<th>Deadline</th>
-									<th>Priority</th>
-								</tr>
-							</thead>
-							<tbody>
-								{data.map((item) => (
-									<tr key={item.ticket}>
-										<td>{item.module}</td>
-										<td>{item.ticketNumber}</td>
-										<td>{item.title}</td>
-										<td>{item.description}</td>
-										<td>{item.status}</td>
-										<td>{item.deadline}</td>
-										<td>{item.priority}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div> */}
+
 					<h2>Tickets</h2>
 					<DocumentsTable
 						colNames={ticketColNames}
@@ -249,8 +226,11 @@ function CorpSec() {
 						<label>Select an option:</label>
 						<select onChange={handleSelectChange} value={selectedOption}>
 							<option value="">Select...</option>
-							<option value="Appoint a Director">Appoint a Director</option>
-							<option value="Issue Shares">Issue Shares</option>
+							<option value={Type.appointDirector}>
+								{Type.appointDirector}
+							</option>
+							<option value={Type.issueShares}>{Type.issueShares}</option>
+							<option value={Type.changeInROA}>{Type.changeInROA}</option>
 						</select>
 
 						<div>

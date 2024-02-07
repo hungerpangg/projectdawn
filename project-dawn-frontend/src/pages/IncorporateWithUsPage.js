@@ -157,259 +157,273 @@ function IncorporateWithUsPage() {
 			);
 		}
 		return (
-			<form
-				style={{
-					margin: "2em",
-					display: "flex",
-					flexDirection: "column",
-					gap: "10px",
-				}}
-				onSubmit={handleSubmit}
-			>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label
-						htmlFor="nameInput"
-						className="form-label"
-						style={{ marginRight: "1em" }}
-					>
-						How may we address you?
-					</label>
-					<input type="text" id="nameInput" required onChange={handleChange} />
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label htmlFor="directorInput" className="form-label">
-						Will you be a director of this new company?
-					</label>
-					<select
-						name="directorInput"
-						id="directorInput"
-						onChange={handleChange}
-						required
-					>
-						<option value="" disabled selected hidden>
-							Please select an option
-						</option>
-						<option value="director">Yes</option>
-						<option value="admin">No</option>
-					</select>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label for="businessEntityInput">
-						What type of business entity are you incorporating?
-					</label>
-					<select
-						name="businessEntityInput"
-						id="businessEntityInput"
-						onChange={handleChange}
-						required
-					>
-						<option value="" disabled selected hidden>
-							Please select an option
-						</option>
-						<option value="private-limited">
-							Pivate company limited by shares
-						</option>
-					</select>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label htmlFor="companyNameInput" className="form-label">
-						What would be your new company name?
-					</label>
-					<input
-						type="text"
-						id="companyNameInput"
-						required
-						onChange={handleChange}
-					/>
-					<button class="check-availability">Check Availability</button>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label htmlFor="citizenInput" className="form-label">
-						Are you a Singpore citizen or permanent resident?
-					</label>
-					<select
-						name="citizenInput"
-						id="citizenInput"
-						onChange={handleChange}
-						required
-					>
-						<option value="" disabled selected hidden>
-							Please select an option
-						</option>
-						<option value="yes">Yes</option>
-						<option value="no">No</option>
-					</select>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label htmlFor="shareholdersInput" className="form-label">
-						How many shareholders will you have?
-					</label>
-					<input
-						style={{ width: "3em" }}
-						type="number"
-						id="shareholdersInput"
-						required
-						min="0"
-						onChange={handleChange}
-					/>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label htmlFor="virtualOfficeInput" className="form-label">
-						Do you require us to provide you with virtual office services?
-					</label>
-					<select
-						name="virtualOfficeInput"
-						id="virtualOfficeInput"
-						onChange={handleChange}
-						required
-					>
-						<option value="" disabled selected hidden>
-							Please select an option
-						</option>
-						<option value="yes">Yes</option>
-						<option value="no">No</option>
-					</select>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label htmlFor="servicesInput" className="form-label">
-						Would you need accounting, book-keeping, tax, and/or HR services /
-						CPF payroll services?
-					</label>
-					<select
-						name="servicesInput"
-						id="servicesInput"
-						onChange={handleChange}
-						required
-					>
-						<option value="" disabled selected hidden>
-							Please select an option
-						</option>
-						<option value="yes">Yes</option>
-						<option value="no">No</option>
-					</select>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label htmlFor="visaInput" className="form-label">
-						Would you need visa or immigration-related services?
-					</label>
-					<select
-						name="visaInput"
-						id="visaInput"
-						onChange={handleChange}
-						required
-					>
-						<option value="" disabled selected hidden>
-							Please select an option
-						</option>
-						<option value="yes">Yes</option>
-						<option value="no">No</option>
-					</select>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label
-						htmlFor="emailInput"
-						className="form-label"
-						style={{ marginRight: "1em" }}
-					>
-						Please enter your email for us to verify you
-					</label>
-					<div
-						style={{ display: "flex", flexDirection: "column", gap: "0.5em" }}
-					>
-						<div style={{ display: "flex", gap: "0.5em" }}>
-							<input type="email" id="emailInput" onChange={handleChange} />
-							<button onClick={handleSendEmailBtnClick}>Send email</button>
-						</div>
-						{state.sendEmail && (
-							<div style={{ display: "flex", gap: "0.5em" }}>
-								<input
-									placeholder="Enter verification code sent in email"
-									type="email"
-									id="emailVerificationInput"
-									onChange={handleChange}
-								/>
-								<button onClick={handleVerifyEmailBtnClick}>Verify</button>
-							</div>
-						)}
-					</div>
-				</div>
-				<div style={{ display: "flex", gap: "1em" }}>
-					<label
-						htmlFor="passwordInput"
-						className="form-label"
-						style={{ marginRight: "1em" }}
-					>
-						Please set a password
-					</label>
-					<input type="password" id="passwordInput" onChange={handleChange} />
-				</div>
-				<div
-					style={{
-						marginTop: "1em",
-						marginBottom: "1em",
-						padding: "1em",
-						display: "flex",
-						flexDirection: "column",
-						gap: "1em",
-						borderStyle: "ridge",
-						width: "50%",
+			<div>
+				<button
+					onClick={() => {
+						navigate("/");
 					}}
 				>
+					Back to Main
+				</button>
+				<form
+					style={{
+						margin: "2em",
+						display: "flex",
+						flexDirection: "column",
+						gap: "10px",
+					}}
+					onSubmit={handleSubmit}
+				>
 					<div style={{ display: "flex", gap: "1em" }}>
-						<label htmlFor="visaInput" className="form-label">
-							Payment method
+						<label
+							htmlFor="nameInput"
+							className="form-label"
+							style={{ marginRight: "1em" }}
+						>
+							How may we address you?
 						</label>
-						<select name="typeOfCardInput" id="typeOfCardInput" required>
+						<input
+							type="text"
+							id="nameInput"
+							required
+							onChange={handleChange}
+						/>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label htmlFor="directorInput" className="form-label">
+							Will you be a director of this new company?
+						</label>
+						<select
+							name="directorInput"
+							id="directorInput"
+							onChange={handleChange}
+							required
+						>
 							<option value="" disabled selected hidden>
 								Please select an option
 							</option>
-							<option value="card">Card</option>
-							<option value="iDeal">iDEAL</option>
-							<option value="Bancontact">Bancontact</option>
+							<option value="director">Yes</option>
+							<option value="admin">No</option>
+						</select>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label for="businessEntityInput">
+							What type of business entity are you incorporating?
+						</label>
+						<select
+							name="businessEntityInput"
+							id="businessEntityInput"
+							onChange={handleChange}
+							required
+						>
+							<option value="" disabled selected hidden>
+								Please select an option
+							</option>
+							<option value="private-limited">
+								Pivate company limited by shares
+							</option>
+						</select>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label htmlFor="companyNameInput" className="form-label">
+							What would be your new company name?
+						</label>
+						<input
+							type="text"
+							id="companyNameInput"
+							required
+							onChange={handleChange}
+						/>
+						<button class="check-availability">Check Availability</button>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label htmlFor="citizenInput" className="form-label">
+							Are you a Singpore citizen or permanent resident?
+						</label>
+						<select
+							name="citizenInput"
+							id="citizenInput"
+							onChange={handleChange}
+							required
+						>
+							<option value="" disabled selected hidden>
+								Please select an option
+							</option>
+							<option value="yes">Yes</option>
+							<option value="no">No</option>
+						</select>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label htmlFor="shareholdersInput" className="form-label">
+							How many shareholders will you have?
+						</label>
+						<input
+							style={{ width: "3em" }}
+							type="number"
+							id="shareholdersInput"
+							required
+							min="0"
+							onChange={handleChange}
+						/>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label htmlFor="virtualOfficeInput" className="form-label">
+							Do you require us to provide you with virtual office services?
+						</label>
+						<select
+							name="virtualOfficeInput"
+							id="virtualOfficeInput"
+							onChange={handleChange}
+							required
+						>
+							<option value="" disabled selected hidden>
+								Please select an option
+							</option>
+							<option value="yes">Yes</option>
+							<option value="no">No</option>
+						</select>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label htmlFor="servicesInput" className="form-label">
+							Would you need accounting, book-keeping, tax, and/or HR services /
+							CPF payroll services?
+						</label>
+						<select
+							name="servicesInput"
+							id="servicesInput"
+							onChange={handleChange}
+							required
+						>
+							<option value="" disabled selected hidden>
+								Please select an option
+							</option>
+							<option value="yes">Yes</option>
+							<option value="no">No</option>
+						</select>
+					</div>
+					<div style={{ display: "flex", gap: "1em" }}>
+						<label htmlFor="visaInput" className="form-label">
+							Would you need visa or immigration-related services?
+						</label>
+						<select
+							name="visaInput"
+							id="visaInput"
+							onChange={handleChange}
+							required
+						>
+							<option value="" disabled selected hidden>
+								Please select an option
+							</option>
+							<option value="yes">Yes</option>
+							<option value="no">No</option>
 						</select>
 					</div>
 					<div style={{ display: "flex", gap: "1em" }}>
 						<label
-							htmlFor="cardInput"
+							htmlFor="emailInput"
 							className="form-label"
 							style={{ marginRight: "1em" }}
 						>
-							Card information
+							Please enter your email for us to verify you
 						</label>
-						<input type="text" id="cardInput" minLength="16" required />
+						<div
+							style={{ display: "flex", flexDirection: "column", gap: "0.5em" }}
+						>
+							<div style={{ display: "flex", gap: "0.5em" }}>
+								<input type="email" id="emailInput" onChange={handleChange} />
+								<button onClick={handleSendEmailBtnClick}>Send email</button>
+							</div>
+							{state.sendEmail && (
+								<div style={{ display: "flex", gap: "0.5em" }}>
+									<input
+										placeholder="Enter verification code sent in email"
+										type="email"
+										id="emailVerificationInput"
+										onChange={handleChange}
+									/>
+									<button onClick={handleVerifyEmailBtnClick}>Verify</button>
+								</div>
+							)}
+						</div>
 					</div>
 					<div style={{ display: "flex", gap: "1em" }}>
 						<label
-							htmlFor="CVCInput"
+							htmlFor="passwordInput"
 							className="form-label"
 							style={{ marginRight: "1em" }}
 						>
-							CVC
+							Please set a password
 						</label>
-						<input
-							type="text"
-							id="CVCInput"
-							minLength="3"
-							maxLength="3"
-							style={{ width: "3em" }}
-							required
-						/>
+						<input type="password" id="passwordInput" onChange={handleChange} />
 					</div>
-					<div style={{ display: "flex", gap: "1em" }}>
-						<label
-							htmlFor="nameOnCardInput"
-							className="form-label"
-							style={{ marginRight: "1em" }}
-						>
-							Name on card
-						</label>
-						<input type="text" id="nameOnCardInput" required />
+					<div
+						style={{
+							marginTop: "1em",
+							marginBottom: "1em",
+							padding: "1em",
+							display: "flex",
+							flexDirection: "column",
+							gap: "1em",
+							borderStyle: "ridge",
+							width: "50%",
+						}}
+					>
+						<div style={{ display: "flex", gap: "1em" }}>
+							<label htmlFor="visaInput" className="form-label">
+								Payment method
+							</label>
+							<select name="typeOfCardInput" id="typeOfCardInput" required>
+								<option value="" disabled selected hidden>
+									Please select an option
+								</option>
+								<option value="card">Card</option>
+								<option value="iDeal">iDEAL</option>
+								<option value="Bancontact">Bancontact</option>
+							</select>
+						</div>
+						<div style={{ display: "flex", gap: "1em" }}>
+							<label
+								htmlFor="cardInput"
+								className="form-label"
+								style={{ marginRight: "1em" }}
+							>
+								Card information
+							</label>
+							<input type="text" id="cardInput" minLength="16" required />
+						</div>
+						<div style={{ display: "flex", gap: "1em" }}>
+							<label
+								htmlFor="CVCInput"
+								className="form-label"
+								style={{ marginRight: "1em" }}
+							>
+								CVC
+							</label>
+							<input
+								type="text"
+								id="CVCInput"
+								minLength="3"
+								maxLength="3"
+								style={{ width: "3em" }}
+								required
+							/>
+						</div>
+						<div style={{ display: "flex", gap: "1em" }}>
+							<label
+								htmlFor="nameOnCardInput"
+								className="form-label"
+								style={{ marginRight: "1em" }}
+							>
+								Name on card
+							</label>
+							<input type="text" id="nameOnCardInput" required />
+						</div>
 					</div>
-				</div>
-				<button type="submit" style={{ width: "5em" }}>
-					Submit
-				</button>
-			</form>
+					<button type="submit" style={{ width: "5em" }}>
+						Submit
+					</button>
+				</form>
+			</div>
 		);
 	};
 

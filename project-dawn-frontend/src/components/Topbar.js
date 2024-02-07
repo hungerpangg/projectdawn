@@ -6,7 +6,10 @@ function Topbar({ optionList, activeTab, handleTabClick }) {
 	const [nameList, setNameList] = useState([]);
 	const [isDropdownVisible, setDropdownVisibility] = useState(false);
 	const [isModalOpen, setModalOpen] = useState(false);
-	const { pathname } = useLocation();
+	const location = useLocation();
+	const firstPath = location.pathname.split("/")[1];
+
+	activeTab = decodeURIComponent(firstPath) || "";
 
 	const openModal = () => {
 		setModalOpen(true);
@@ -29,7 +32,7 @@ function Topbar({ optionList, activeTab, handleTabClick }) {
 		"Activity Log",
 		"Mailbox",
 		"User Management",
-		"24/7 Support",
+		"Support",
 		"Profile",
 	];
 
@@ -70,7 +73,9 @@ function Topbar({ optionList, activeTab, handleTabClick }) {
 	const options = nameList?.map((option) => {
 		return (
 			<NavLink
-				to={option.toLowerCase() === "profile" ? pathname : `/${option}`}
+				to={
+					option.toLowerCase() === "profile" ? location.pathname : `/${option}`
+				}
 				className={`topbar-options ${
 					activeTab === option ? "active-custom" : ""
 				}`}

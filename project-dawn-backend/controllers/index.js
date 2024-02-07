@@ -33,8 +33,8 @@ const upload = multer({
 
 // create json web token
 const maxAge = 3 * 24 * 60 * 60;
-const createToken = (id) => {
-	return jwt.sign({ id }, process.env.JWT_TOKEN_SECRET, {
+const createToken = (id, userType) => {
+	return jwt.sign({ id, userType }, process.env.JWT_TOKEN_SECRET, {
 		expiresIn: maxAge,
 	});
 };
@@ -111,13 +111,9 @@ module.exports.signup_post = async (req, res) => {
 			company: company._id,
 		});
 		console.log(user);
-		const token = createToken(user._id);
+		const token = createToken(user._id, "client");
 		res.cookie("jwt", token, {
 			maxAge: maxAge * 1000,
-			secure: true,
-			sameSite: "None",
-			domain: ".projectdawn-sequence.com",
-			path: "/",
 		});
 		const userId = user._id.toString();
 		res.status(201).json({ redirected: true, userId, companyId });
@@ -218,13 +214,9 @@ module.exports.login = async (req, res) => {
 	var { email, password } = req.body;
 	try {
 		const user = await User.login(email, password);
-		const token = createToken(user._id);
+		const token = createToken(user._id, "client");
 		res.cookie("jwt", token, {
 			maxAge: maxAge * 1000,
-			secure: true,
-			sameSite: "None",
-			domain: ".projectdawn-sequence.com",
-			path: "/",
 		});
 		// var { email, _id, name } = user;
 		// const userId = _id.toString();
@@ -241,14 +233,25 @@ module.exports.login = async (req, res) => {
 };
 
 module.exports.getTickets = async (req, res) => {
-	var category;
+	// var category;
 	const token = req.cookies.jwt;
-	({ category, companyId } = req.query);
-	console.log(companyId, "companyId");
-	if (category && companyId) {
+	const { category, companyId, ticketId } = req.query;
+	console.log(companyId, category, ticketId, "companyId");
+	let query = {};
+	if (category) {
+		query.category = category;
+	}
+	if (companyId) {
+		query.company = companyId;
+	}
+	if (ticketId) {
+		query._id = ticketId;
+	}
+	if (category || companyId || ticketId) {
 		try {
-			const tickets = await Ticket.find({ category, company: companyId })
-				.populate("creator", "name")
+			const tickets = await Ticket.find(query)
+				.populate("creator")
+				.populate("company")
 				.lean();
 			res.status(201).json(tickets);
 		} catch (err) {
@@ -269,25 +272,30 @@ module.exports.getTickets = async (req, res) => {
 };
 
 module.exports.getDocuments = async (req, res) => {
-	var category;
+	// var category;
 	const token = req.cookies.jwt;
-	({ category, companyId } = req.query);
-	console.log(companyId, "companyId");
-	if (category && companyId) {
-		try {
-			const documents = await Document.find({ category, company: companyId })
-				.populate("creator", "name")
-				.lean();
-			res.status(201).json(documents);
-		} catch (err) {
-			console.log(err);
-			res
-				.status(404)
-				.json({ ok: false, error: "Unable to retrieve documents" });
-		}
-	} else {
-		res.status(404).json({ ok: false, error: "Invalid category or companyId" });
+	const { category, companyId, ticketId } = req.query;
+	console.log(companyId, category, ticketId, "getdocuments");
+	let query = {};
+	if (category) {
+		query.category = category;
 	}
+	if (companyId) {
+		query.company = companyId;
+	}
+	if (ticketId) {
+		query.ticket = ticketId;
+	}
+	try {
+		const documents = await Document.find(query)
+			.populate("creator", "name")
+			.lean();
+		res.status(201).json(documents);
+	} catch (err) {
+		console.log(err);
+		res.status(404).json({ ok: false, error: "Unable to retrieve documents" });
+	}
+
 	// } else {
 	// 	try {
 	// 		const user = await User.findById(id);
@@ -301,10 +309,6 @@ module.exports.getDocuments = async (req, res) => {
 module.exports.logout = (req, res) => {
 	res.cookie("jwt", "", {
 		maxAge: 1,
-		secure: true,
-		sameSite: "None",
-		domain: ".projectdawn-sequence.com",
-		path: "/",
 	});
 	res.status(200).json({ success: true });
 };

@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: ["https://app.projectdawn-sequence.com"],
+		origin: ["http://localhost:3000"],
 		methods: "GET,POST,PUT,DELETE", // The allowed HTTP methods
 		allowedHeaders: "Content-Type,Authorization", // The allowed request headers
 		credentials: true,

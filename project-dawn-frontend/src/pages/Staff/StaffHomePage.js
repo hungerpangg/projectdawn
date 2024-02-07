@@ -1,15 +1,12 @@
-import { useState } from "react";
-import Sidebar from "../components/Sidebar";
+import { useState, useEffect } from "react";
+import Sidebar from "../../components/Sidebar";
+import { Category } from "../../enums";
+import DocumentsTable from "../../components/DocumentsTable";
+import { Link } from "react-router-dom";
 
 function StaffHomePage() {
-	const sidebarOptions = [
-		"Sequence",
-		"CorpSec",
-		"Accounting",
-		"HRMS",
-		"Insurance",
-		"Legal",
-	];
+	const [corpsecTickets, setCorpsecTickets] = useState([]);
+	const [accountingTickets, setAccountingTickets] = useState([]);
 
 	const notifications = [
 		{
@@ -25,40 +22,64 @@ function StaffHomePage() {
 		return <div>{notification.title}</div>;
 	});
 
-	const data = [
-		{
-			module: "CorpSec",
-			ticketNumber: 1,
-			title: "Handle corp sec",
-			description: "Some stuff",
-			status: "In progress",
-			deadline: new Date().toLocaleDateString(),
-			priority: "red",
-		},
-		{
-			module: "CorpSec",
-			ticketNumber: 2,
-			title: "Handle corp sec",
-			description: "Some stuff",
-			status: "In progress",
-			deadline: new Date().toLocaleDateString(),
-			priority: "red",
-		},
-		{
-			module: "CorpSec",
-			ticketNumber: 3,
-			title: "Handle corp sec",
-			description: "Some stuff",
-			status: "In progress",
-			deadline: new Date().toLocaleDateString(),
-			priority: "red",
-		},
+	const ticketColNames = [
+		"Ticket no.",
+		"Ticket type",
+		"Additional info",
+		"Created by",
+		"Company",
 	];
+
+	const getTickets = async () => {
+		try {
+			const corpsec = await fetch(
+				`${process.env.REACT_APP_API_URL}/tickets?category=${Category.Corpsec}`,
+				{
+					method: "GET",
+					credentials: "include",
+				}
+			);
+			const accounting = await fetch(
+				`${process.env.REACT_APP_API_URL}/tickets?category=${Category.Accounting}`,
+				{
+					method: "GET",
+					credentials: "include",
+				}
+			);
+			const corpsecData = await corpsec.json();
+			const accountingData = await accounting.json();
+			setCorpsecTickets(corpsecData);
+			setAccountingTickets(accountingData);
+		} catch (err) {
+			console.log(err);
+		}
+	};
+
+	const corpsecTableData = corpsecTickets?.map((ticket) => ({
+		ticketNumber: <Link to={`/staff/ticket/${ticket._id}`}>{ticket._id}</Link>,
+		ticketType: ticket.type,
+		addtionalInfo: ticket.payload.additionalInformationInput || "None",
+		createdBy: ticket.creator?.email,
+		createdAt: ticket.company?.name,
+	}));
+
+	const accountingTableData = accountingTickets?.map((ticket) => ({
+		ticketNumber: <Link to={`/staff/ticket/${ticket._id}`}>{ticket._id}</Link>,
+		ticketType: ticket.type,
+		addtionalInfo: ticket.payload.additionalInformationInput || "None",
+		createdBy: ticket.creator?.email,
+		createdAt: ticket.company?.name,
+	}));
+
+	const colWidth = ["6em", "5em", "7em", "7em", "3em"];
+
+	useEffect(() => {
+		getTickets();
+	}, []);
 
 	return (
 		<div>
 			<div>
-				<Sidebar optionList={sidebarOptions} />
 				<div
 					className="dashboard-container"
 					style={{ display: "flex", flexDirection: "column" }}
@@ -119,34 +140,17 @@ function StaffHomePage() {
 								display: "flex",
 								justifyContent: "center",
 								alignItems: "center",
+								flexDirection: "column",
 							}}
 						>
-							<table border="1">
-								<thead>
-									<tr>
-										<th>Module</th>
-										<th>Ticket number</th>
-										<th>Title</th>
-										<th>Description</th>
-										<th>Status</th>
-										<th>Deadline</th>
-										<th>Priority</th>
-									</tr>
-								</thead>
-								<tbody>
-									{data.map((item) => (
-										<tr key={item.ticket}>
-											<td>{item.module}</td>
-											<td>{item.ticketNumber}</td>
-											<td>{item.title}</td>
-											<td>{item.description}</td>
-											<td>{item.status}</td>
-											<td>{item.deadline}</td>
-											<td>{item.priority}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
+							<h2>Tickets</h2>
+							<DocumentsTable
+								colNames={ticketColNames}
+								data={corpsecTableData}
+								searchFilter={true}
+								searchName="ticket name"
+								colWidth={colWidth}
+							/>
 						</div>
 					</div>
 					<div style={{ borderTop: "2px solid gray", margin: "2em 0" }}></div>
@@ -225,32 +229,13 @@ function StaffHomePage() {
 								alignItems: "center",
 							}}
 						>
-							<table border="1">
-								<thead>
-									<tr>
-										<th>Module</th>
-										<th>Ticket number</th>
-										<th>Title</th>
-										<th>Description</th>
-										<th>Status</th>
-										<th>Deadline</th>
-										<th>Priority</th>
-									</tr>
-								</thead>
-								<tbody>
-									{data.map((item) => (
-										<tr key={item.ticket}>
-											<td>{item.module}</td>
-											<td>{item.ticketNumber}</td>
-											<td>{item.title}</td>
-											<td>{item.description}</td>
-											<td>{item.status}</td>
-											<td>{item.deadline}</td>
-											<td>{item.priority}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
+							<DocumentsTable
+								colNames={ticketColNames}
+								data={accountingTableData}
+								searchFilter={true}
+								searchName="ticket name"
+								colWidth={colWidth}
+							/>
 						</div>
 					</div>
 					<div style={{ borderTop: "2px solid gray", margin: "2em 0" }}></div>
@@ -313,32 +298,13 @@ function StaffHomePage() {
 								alignItems: "center",
 							}}
 						>
-							<table border="1">
-								<thead>
-									<tr>
-										<th>Module</th>
-										<th>Ticket number</th>
-										<th>Title</th>
-										<th>Description</th>
-										<th>Status</th>
-										<th>Deadline</th>
-										<th>Priority</th>
-									</tr>
-								</thead>
-								<tbody>
-									{data.map((item) => (
-										<tr key={item.ticket}>
-											<td>{item.module}</td>
-											<td>{item.ticketNumber}</td>
-											<td>{item.title}</td>
-											<td>{item.description}</td>
-											<td>{item.status}</td>
-											<td>{item.deadline}</td>
-											<td>{item.priority}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
+							<DocumentsTable
+								colNames={ticketColNames}
+								data={corpsecTableData}
+								searchFilter={true}
+								searchName="ticket name"
+								colWidth={colWidth}
+							/>
 						</div>
 					</div>
 					<div style={{ borderTop: "2px solid gray", margin: "2em 0" }}></div>
