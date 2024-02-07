@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import SignoutModal from "./SignoutModal";
 
-function Topbar({ optionList, activeTab, handleTabClick }) {
+function Topbar({ optionList, activeTab, handleTabClick, staff }) {
 	const [nameList, setNameList] = useState([]);
 	const [isDropdownVisible, setDropdownVisibility] = useState(false);
 	const [isModalOpen, setModalOpen] = useState(false);
@@ -74,7 +74,11 @@ function Topbar({ optionList, activeTab, handleTabClick }) {
 		return (
 			<NavLink
 				to={
-					option.toLowerCase() === "profile" ? location.pathname : `/${option}`
+					option.toLowerCase() === "profile"
+						? location.pathname
+						: staff
+						? `/staff/${option}`
+						: `/${option}`
 				}
 				className={`topbar-options ${
 					activeTab === option ? "active-custom" : ""

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-function Sidebar({ optionList, activeTab, handleTabClick }) {
+function Sidebar({ optionList, activeTab, handleTabClick, staff }) {
 	const [nameList, setNameList] = useState([]);
 	// const [activeTab, setActiveTab] = useState("");
 	const location = useLocation();
@@ -42,7 +42,15 @@ function Sidebar({ optionList, activeTab, handleTabClick }) {
 			// 	{option !== "Sequence" ? <p>{option}</p> : <h3>{option}</h3>}
 			// </div>
 			<NavLink
-				to={option.toLowerCase() === "sequence" ? "/home" : `/${option}`}
+				to={
+					option.toLowerCase() === "sequence"
+						? staff
+							? "/staff/home"
+							: "/home"
+						: staff
+						? `/staff/${option}`
+						: `/${option}`
+				}
 				// to={`/${option}`}
 				// className="sidebar-options"
 				className={`sidebar-options ${
