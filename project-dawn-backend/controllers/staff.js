@@ -77,6 +77,10 @@ module.exports.login = async (req, res) => {
 		const token = createToken(staff._id, "staff");
 		res.cookie("jwt", token, {
 			maxAge: maxAge * 1000,
+			secure: true,
+			sameSite: "None",
+			domain: ".projectdawn-sequence.com",
+			path: "/",
 		});
 		res.status(201).json({
 			success: true,

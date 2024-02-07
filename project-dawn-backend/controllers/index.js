@@ -114,6 +114,10 @@ module.exports.signup_post = async (req, res) => {
 		const token = createToken(user._id, "client");
 		res.cookie("jwt", token, {
 			maxAge: maxAge * 1000,
+			secure: true,
+			sameSite: "None",
+			domain: ".projectdawn-sequence.com",
+			path: "/",
 		});
 		const userId = user._id.toString();
 		res.status(201).json({ redirected: true, userId, companyId });
@@ -217,6 +221,10 @@ module.exports.login = async (req, res) => {
 		const token = createToken(user._id, "client");
 		res.cookie("jwt", token, {
 			maxAge: maxAge * 1000,
+			secure: true,
+			sameSite: "None",
+			domain: ".projectdawn-sequence.com",
+			path: "/",
 		});
 		// var { email, _id, name } = user;
 		// const userId = _id.toString();
@@ -309,6 +317,10 @@ module.exports.getDocuments = async (req, res) => {
 module.exports.logout = (req, res) => {
 	res.cookie("jwt", "", {
 		maxAge: 1,
+		secure: true,
+		sameSite: "None",
+		domain: ".projectdawn-sequence.com",
+		path: "/",
 	});
 	res.status(200).json({ success: true });
 };
