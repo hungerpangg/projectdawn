@@ -1,13 +1,33 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import AuthenticateContext from "../../context/authentication";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-function StaffLogin() {
+function StaffLogin({ redirect }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
 	const { setAuthenticatedState } = useContext(AuthenticateContext);
+
+	const showToastMessage = () => {
+		toast.dark("Please sign in as staff to access Sequence Admin", {
+			position: toast.POSITION.TOP_CENTER,
+			autoClose: 2000,
+			style: {
+				theme: "colored",
+				color: "black",
+				backgroundColor: "white",
+			},
+		});
+	};
+
+	useEffect(() => {
+		if (redirect) {
+			showToastMessage();
+		}
+	}, []);
 
 	console.log(process.env.REACT_APP_API_URL, "processenv");
 
@@ -52,7 +72,8 @@ function StaffLogin() {
 
 	return (
 		<div>
-			<h2>Login</h2>
+			<ToastContainer />
+			<h2>Staff Login</h2>
 			<div>
 				<label>Email:</label>
 				<input

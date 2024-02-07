@@ -22,12 +22,26 @@ function App() {
 		authenticatedState: { isAuthenticated, userType },
 	} = useContext(AuthenticateContext);
 
+	const path = window.location.pathname.substring(1);
+	console.log(path, "path");
+
 	const [activeTab, setActiveTab] = useState("");
 
 	const handleTabClick = (tabName) => {
 		setActiveTab(tabName);
 		console.log(tabName, "tab");
 	};
+
+	const staffPages = ["staff", "staff/login", "staff/home", "staff/ticket"];
+
+	const clientPages = [
+		"incorporate",
+		"transfer",
+		"login",
+		"home",
+		"corpsec",
+		"accounting",
+	];
 
 	const clientSidebarOptionList = [
 		"Sequence",
@@ -70,28 +84,44 @@ function App() {
 	return (
 		<div>
 			<Router>
-				{isAuthenticated && (
-					<Sidebar
-						optionList={
-							userType === "client"
-								? clientSidebarOptionList
-								: StaffSidebarOptionList
-						}
-						activeTab={activeTab}
-						handleTabClick={handleTabClick}
-					/>
-				)}
-				{isAuthenticated && (
-					<Topbar
-						optionList={
-							userType === "client"
-								? clientTopbarOptionList
-								: StaffTopbarOptionList
-						}
-						activeTab={activeTab}
-						handleTabClick={handleTabClick}
-					/>
-				)}
+				{isAuthenticated &&
+					userType === "client" &&
+					!staffPages.includes(path) && (
+						<Sidebar
+							optionList={clientSidebarOptionList}
+							activeTab={activeTab}
+							handleTabClick={handleTabClick}
+						/>
+					)}
+				{isAuthenticated &&
+					userType === "client" &&
+					!staffPages.includes(path) && (
+						<Topbar
+							optionList={clientTopbarOptionList}
+							activeTab={activeTab}
+							handleTabClick={handleTabClick}
+						/>
+					)}
+				{isAuthenticated &&
+					userType === "staff" &&
+					!clientPages.includes(path) &&
+					path !== "" && (
+						<Sidebar
+							optionList={StaffSidebarOptionList}
+							activeTab={activeTab}
+							handleTabClick={handleTabClick}
+						/>
+					)}
+				{isAuthenticated &&
+					userType === "staff" &&
+					!clientPages.includes(path) &&
+					path !== "" && (
+						<Topbar
+							optionList={StaffTopbarOptionList}
+							activeTab={activeTab}
+							handleTabClick={handleTabClick}
+						/>
+					)}
 
 				<Routes>
 					{/* <Route path="/" element={<ClientFrontPage />} /> */}
@@ -107,10 +137,30 @@ function App() {
 					/>
 				</Routes>
 				<Routes>
-					<Route path="/incorporate" element={<IncorporateWithUsPage />} />
+					{/* <Route path="/incorporate" element={<IncorporateWithUsPage />} /> */}
+					<Route
+						path="/incorporate"
+						element={
+							<PrivateRoute
+								element={<ClientHomePage />}
+								alternateElement={<IncorporateWithUsPage />}
+								isAuthenticated={isAuthenticated && userType === "client"}
+							/>
+						}
+					/>
 				</Routes>
 				<Routes>
-					<Route path="/transfer" element={<TransferToUsPage />} />
+					{/* <Route path="/transfer" element={<TransferToUsPage />} /> */}
+					<Route
+						path="/transfer"
+						element={
+							<PrivateRoute
+								element={<ClientHomePage />}
+								alternateElement={<TransferToUsPage />}
+								isAuthenticated={isAuthenticated && userType === "client"}
+							/>
+						}
+					/>
 				</Routes>
 				<Routes>
 					{/* <Route path="/home" element={<ClientHomePage />} /> */}
@@ -120,7 +170,7 @@ function App() {
 							<PrivateRoute
 								element={<ClientHomePage />}
 								alternateElement={<ClientLogInPage redirect={true} />}
-								isAuthenticated={isAuthenticated}
+								isAuthenticated={isAuthenticated && userType === "client"}
 							/>
 						}
 					/>
@@ -134,7 +184,7 @@ function App() {
 							<PrivateRoute
 								element={<CorpSecPage />}
 								alternateElement={<ClientLogInPage redirect={true} />}
-								isAuthenticated={isAuthenticated}
+								isAuthenticated={isAuthenticated && userType === "client"}
 							/>
 						}
 					/>
@@ -147,7 +197,7 @@ function App() {
 							<PrivateRoute
 								element={<ClientHomePage />}
 								alternateElement={<ClientLogInPage redirect={true} />}
-								isAuthenticated={isAuthenticated}
+								isAuthenticated={isAuthenticated && userType === "client"}
 							/>
 						}
 					/>
@@ -160,7 +210,7 @@ function App() {
 							<PrivateRoute
 								element={<ClientHomePage />}
 								alternateElement={<ClientLogInPage />}
-								isAuthenticated={isAuthenticated}
+								isAuthenticated={isAuthenticated && userType === "client"}
 							/>
 						}
 					/>
@@ -173,7 +223,7 @@ function App() {
 							<PrivateRoute
 								element={<ClientViewTicket />}
 								alternateElement={<ClientLogInPage redirect={true} />}
-								isAuthenticated={isAuthenticated}
+								isAuthenticated={isAuthenticated && userType === "client"}
 							/>
 						}
 					/>
@@ -181,26 +231,56 @@ function App() {
 
 				{/* For staff  */}
 				<Routes>
-					<Route path="/staff" element={<StaffFrontPage />} />
-					{/* <Route
+					{/* <Route path="/staff" element={<StaffFrontPage />} /> */}
+					<Route
 						path="/staff"
 						element={
 							<PrivateRoute
-								element={<ClientViewTicket />}
-								alternateElement={<ClientLogInPage redirect={true} />}
-								isAuthenticated={isAuthenticated}
+								element={<StaffHomePage />}
+								alternateElement={<StaffFrontPage />}
+								isAuthenticated={isAuthenticated && userType === "staff"}
 							/>
 						}
-					/> */}
+					/>
 				</Routes>
 				<Routes>
-					<Route path="/staff/home" element={<StaffHomePage />} />
+					{/* <Route path="/staff/home" element={<StaffHomePage />} /> */}
+					<Route
+						path="/staff/home"
+						element={
+							<PrivateRoute
+								element={<StaffHomePage />}
+								alternateElement={<StaffLogInPage redirect={true} />}
+								isAuthenticated={isAuthenticated && userType === "staff"}
+							/>
+						}
+					/>
 				</Routes>
 				<Routes>
-					<Route path="/staff/login" element={<StaffLogInPage />} />
+					{/* <Route path="/staff/login" element={<StaffLogInPage />} /> */}
+					<Route
+						path="/staff/login"
+						element={
+							<PrivateRoute
+								element={<StaffHomePage />}
+								alternateElement={<StaffLogInPage />}
+								isAuthenticated={isAuthenticated && userType === "staff"}
+							/>
+						}
+					/>
 				</Routes>
 				<Routes>
-					<Route path="/staff/ticket/:ticketId" element={<StaffViewTicket />} />
+					{/* <Route path="/staff/ticket/:ticketId" element={<StaffViewTicket />} /> */}
+					<Route
+						path="/staff/ticket/:ticketId"
+						element={
+							<PrivateRoute
+								element={<StaffViewTicket />}
+								alternateElement={<StaffLogInPage redirect={true} />}
+								isAuthenticated={isAuthenticated && userType === "staff"}
+							/>
+						}
+					/>
 				</Routes>
 			</Router>
 		</div>
